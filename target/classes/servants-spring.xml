@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:tars="http://tars.tencent.com/schema/tars"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+           http://www.springframework.org/schema/beans/spring-beans-4.3.xsd  
+           http://www.springframework.org/schema/aop   
+           http://www.springframework.org/schema/aop/spring-aop-4.3.xsd  
+           http://www.springframework.org/schema/tx  
+           http://www.springframework.org/schema/tx/spring-tx-4.3.xsd  
+           http://www.springframework.org/schema/context  
+           http://www.springframework.org/schema/context/spring-context-4.3.xsd
+           http://www.springframework.org/schema/task
+	       http://www.springframework.org/schema/task/spring-task-4.3.xsd
+	       http://tars.tencent.com/schema/tars
+	       http://tars.tencent.com/schema/tars/tars.xsd"
+	       
+	       
+	default-autowire="byName" default-lazy-init="false">
+
+	<!-- 采用注释的方式配置bean -->
+	<context:annotation-config />
+
+	<!-- 配置要扫描的包 -->
+	<context:component-scan base-package="com.ethome" />
+	
+
+	<!-- 读入配置属性文件 -->
+	<context:property-placeholder
+		location="classpath:public_system.properties,classpath:database.properties" />
+
+	<!-- proxy-target-class默认"false",更改为"true"使用CGLib动态代理 -->
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+
+   
+	<import resource="classpath:spring/spring-mybatis.xml" />
+	<import resource="classpath:spring/spring-jedis.xml" />
+	
+	
+	<bean id="springContext" class="com.ethome.iws.app.SpringContext" />
+    <tars:servant name="HelloObj" interface="com.ethome.api.HelloServant" ref="helloServantImpl"/>
+
+
+	<!-- 邮件配置 -->
+	<bean id="mailSender" name="mailSender"
+		class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.exmail.qq.com" />
+		<property name="port" value="465" />
+		<property name="username" value="${mail.username}" />
+		<property name="password" value="${mail.password}" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.timeout">5000</prop>
+                <prop key="mail.smtp.socketFactory.port">465</prop>
+                <prop key="mail.smtp.socketFactory.fallback">false</prop>
+                <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>				
+			</props>
+		</property>
+	</bean>
+</beans>

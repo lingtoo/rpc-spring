@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ethome.iws.dao.impl.HisDevDataDaoImpl">
+	<sql id="table">ethome_indu.hisdatas</sql>
+
+	<resultMap id="historyDataMap" type="HistoryData">
+		<id column="id" property="id" />
+		<result column="device_id" property="deviceId" jdbcType="VARCHAR" />
+		<result column="device_type" property="deviceType" jdbcType="VARCHAR" />
+		<result column="up_data" property="upData" jdbcType="VARCHAR" />
+		<result column="created_at" property="createdAt" jdbcType="TIME" />
+		<result column="updated_at" property="updatedAt" jdbcType="TIME" />
+		
+		<result column="p1" property="p1" jdbcType="VARCHAR" />
+		<result column="p2" property="p2" jdbcType="VARCHAR" />
+		<result column="p3" property="p3" jdbcType="VARCHAR" />
+		<result column="p4" property="p4" jdbcType="VARCHAR" />
+		<result column="p5" property="p5" jdbcType="VARCHAR" />
+		<result column="p6" property="p6" jdbcType="VARCHAR" />
+		<result column="p7" property="p7" jdbcType="VARCHAR" />
+		<result column="p8" property="p8" jdbcType="VARCHAR" />
+		<result column="p9" property="p9" jdbcType="VARCHAR" />
+		<result column="p10" property="p10" jdbcType="VARCHAR" />
+		<result column="p11" property="p11" jdbcType="VARCHAR" />
+		<result column="p12" property="p12" jdbcType="VARCHAR" />
+		<result column="p13" property="p13" jdbcType="VARCHAR" />
+		<result column="p14" property="p14" jdbcType="VARCHAR" />
+		<result column="p15" property="p15" jdbcType="VARCHAR" />
+		<result column="p16" property="p16" jdbcType="VARCHAR" />
+		<result column="p17" property="p17" jdbcType="VARCHAR" />
+		<result column="p18" property="p18" jdbcType="VARCHAR" />
+		<result column="p19" property="p19" jdbcType="VARCHAR" />
+		<result column="p20" property="p20" jdbcType="VARCHAR" />
+			
+	</resultMap>
+
+	<select id="getById" parameterType="Integer" resultMap="historyDataMap">
+		select * from
+		<include refid="table" />
+		where id = #{id}
+	</select>
+
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="HistoryData">
+		INSERT INTO
+		<include refid="table" />
+		(
+		device_id,
+		device_type,
+		up_data,
+		created_at,
+		updated_at,
+		p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,
+		p11,p12,p13,p14,p15,p16,p17,p18,p19,p20
+		)
+		VALUES (
+		#{deviceId, jdbcType=VARCHAR},
+		#{deviceType, jdbcType=VARCHAR},
+		#{upData, jdbcType=VARCHAR},
+		#{createdAt},
+		#{updatedAt},
+		#{p1,jdbcType=VARCHAR},#{p2,jdbcType=VARCHAR},#{p3,jdbcType=VARCHAR},#{p4,jdbcType=VARCHAR},#{p5,jdbcType=VARCHAR},
+		#{p6,jdbcType=VARCHAR},#{p7,jdbcType=VARCHAR},#{p8,jdbcType=VARCHAR},#{p9,jdbcType=VARCHAR},#{p10,jdbcType=VARCHAR},
+		#{p11,jdbcType=VARCHAR},#{p12,jdbcType=VARCHAR},#{p13,jdbcType=VARCHAR},#{p14,jdbcType=VARCHAR},#{p15,jdbcType=VARCHAR},
+		#{p16,jdbcType=VARCHAR},#{p17,jdbcType=VARCHAR},#{p18,jdbcType=VARCHAR},#{p19,jdbcType=VARCHAR},#{p20,jdbcType=VARCHAR}
+		)
+	</insert>
+
+
+
+	<select id="findHistoryData" resultMap="historyDataMap">
+		SELECT * FROM
+		<include refid="table" />
+		<where>
+			1=1
+			<if test="deviceId != null and deviceId !=''">
+				AND device_id = #{deviceId}
+			</if>
+			<if test="deviceType != null and deviceType !=''">
+				AND device_type = #{deviceType}
+			</if>
+		</where>
+	</select>
+
+</mapper>
